@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title><%= pageTitle %></title>
+
+<link rel="stylesheet" href="/style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+html, body{
+margin:0;
+padding:0;
+overflow-x:hidden;
+}
+.hero{
+min-height:100vh;
+}
+#libraryToggle{
+transition: all 0.25s ease;
+}
+#libraryToggle:hover{
+color:#ffffff;
+text-shadow:0 0 8px rgba(255,255,255,0.9);
+transform:translateY(-2px);
+}
+.suggestions{
+position:absolute;
+background:white;
+border:1px solid #ccc;
+width:100%;
+z-index:1000;
+}
+
+.suggestion-item{
+padding:8px;
+cursor:pointer;
+}
+
+.suggestion-item:hover{
+background:#eee;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+
+<div class="container d-flex align-items-center">
+
+<div class="d-flex align-items-center gap-2">
+
+<% if (isLoggedIn) { %>
+
+<div class="dropdown">
+
+<button class="btn btn-outline-light btn-sm dropdown-toggle"
+data-bs-toggle="dropdown">
+
+👤 <%= username %>
+
+</button>
+
+<ul class="dropdown-menu">
+
+<li>
+<a class="dropdown-item" href="/books">My Books</a>
+</li>
+
+<li>
+<a class="dropdown-item" href="/books?showall=1">Browse Library</a>
+</li>
+
+<li>
+<hr class="dropdown-divider">
+</li>
+
+<li>
+<a class="dropdown-item text-danger" href="/logout">Logout</a>
+</li>
+
+</ul>
+
+</div>
+
+<% } %>
+
+<a id="libraryToggle" class="nav-link text-white p-0 ms-2" href="/books?showall=1">
+Library
+</a>
+
+</div>
+
+
+<form class="d-flex ms-4"
+action="/books/search"
+method="GET"
+style="max-width:420px;width:100%">
+
+<div style="position:relative;width:100%">
+
+<input
+name="q"
+class="form-control form-control-sm me-2"
+type="search"
+placeholder="Search a Book"
+id="searchBox"
+autocomplete="off">
+
+<div id="suggestions" class="suggestions"></div>
+
+</div>
+
+<button class="btn btn-sm btn-success ms-2">
+Search
+</button>
+
+</form>
+
+</div>
+
+</nav>
+
+
+
+<div class="hero">
+
+<div class="hero-bg"></div>
+
+<div class="hero-content">
+
+<div class="hero-text">
+
+<h1>WELCOME TO LIBRARY</h1>
+
+<p>Feed Your Brain</p>
+<p>Grab A Book To Read</p>
+
+</div>
+
+<div class="content-container text-center">
+
+<% if (isLoggedIn) { %>
+
+<div class="alert success">
+You are currently signed in as <strong><%= username %></strong>.
+</div>
+
+<a href="/books" class="btn primary">
+View your Books
+</a>
+
+<% } else { %>
+
+<div class="alert info">
+Please sign in or sign up to access the full book catalog.
+</div>
+
+<a href="/signin" class="btn primary">Sign In</a>
+<a href="/signup" class="btn secondary">Create Account</a>
+
+<% } %>
+
+</div>
+
+</div>
+</div>
+<script>
+
+const searchBox=document.getElementById("searchBox");
+const suggestions=document.getElementById("suggestions");
+
+searchBox.addEventListener("keyup",async()=>{
+
+const query=searchBox.value.trim();
+
+if(query.length===0){
+suggestions.innerHTML="";
+return;
+}
+
+try{
+
+const res=await fetch(`/search-suggest?q=${query}`);
+const books=await res.json();
+
+suggestions.innerHTML="";
+
+if(books.length===0){
+suggestions.innerHTML="<div class='suggestion-item'>No results</div>";
+return;
+}
+
+books.forEach(book=>{
+
+const div=document.createElement("div");
+div.classList.add("suggestion-item");
+div.innerText=book.title;
+
+div.onclick=()=>{
+searchBox.value=book.title;
+suggestions.innerHTML="";
+};
+
+suggestions.appendChild(div);
+
+});
+
+}catch(err){
+console.error("Search error",err);
+}
+});
+document.addEventListener("click",function(e){
+if(!searchBox.contains(e.target)){
+suggestions.innerHTML="";
+}
+
+});
+</script>
+<script src="/js/navbar.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

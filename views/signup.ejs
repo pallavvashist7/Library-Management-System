@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= pageTitle %></title>
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<nav class="main-nav dark-bg">
+<div class="nav-container">
+
+<a class="logo" href="/">LIBRARY</a>
+
+<button class="nav-toggle"
+type="button"
+id="navbarToggle"
+aria-controls="navbarNav"
+aria-expanded="false"
+aria-label="Toggle navigation">
+<span class="toggle-icon"></span>
+</button>
+
+<div class="nav-menu" id="navbarNav">
+
+<ul class="nav-links main-links">
+<li class="nav-item">
+<a class="nav-link" href="/">Home</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="/books">Books</a>
+</li>
+</ul>
+
+<form class="search-form" action="/books/search" method="GET">
+<input
+class="search-input"
+name="q"
+type="search"
+placeholder="Search a Book"
+aria-label="Search">
+<button class="btn success-outline" type="submit">
+Search
+</button>
+</form>
+
+<ul class="nav-links auth-links">
+
+<% if (isLoggedIn) { %>
+
+<li class="nav-item">
+<span class="nav-link text-white">
+Welcome, <%= username %>
+</span>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="/logout">
+Logout
+</a>
+</li>
+
+<% } else { %>
+
+<li class="nav-item">
+<a class="nav-link" href="/signup">Sign Up</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="/signin">Sign In</a>
+</li>
+
+<% } %>
+
+</ul>
+
+</div>
+</div>
+</nav>
+
+
+<div class="content-container auth-form-container">
+
+<h2>Create a New Account</h2>
+
+<% if (error) { %>
+<div class="alert error">
+<%= error %>
+</div>
+<% } %>
+
+<form action="/signup" method="POST" class="auth-form">
+
+<div class="form-group">
+<label for="username">Username:</label>
+<input type="text" id="username" name="username" required>
+</div>
+
+<div class="form-group">
+<label for="email">Email:</label>
+<input type="email" id="email" name="email" required>
+</div>
+
+<div class="form-group">
+<label for="password">Password:</label>
+<input type="password" id="password" name="password" required>
+</div>
+
+<button type="submit" class="btn primary full-width">
+Sign Up
+</button>
+
+</form>
+
+<p class="auth-link">
+Already have an account?
+<a href="/signin">Sign In here</a>
+</p>
+
+</div>
+
+<script src="/js/navbar.js"></script>
+
+</body>
+</html>

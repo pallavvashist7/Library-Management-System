@@ -1,0 +1,309 @@
+/* --- Global Reset and Layout --- */
+html {
+    height: 100%;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    height: 100%;
+}
+
+/* Ensure the main content area grows and has padding */
+.content-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%; 
+}
+
+/* Utility classes */
+.dark-bg { background-color: #343a40; }
+.light-bg { background-color: #f8f9fa; }
+.text-white { color: white !important; }
+.text-center { text-align: center; }
+.padding-y { padding-top: 1rem; padding-bottom: 1rem; }
+
+/* --- Navigation Bar (Header) --- */
+.main-nav {
+    padding: 10px 20px;
+    color: white;
+    position: relative; 
+    z-index: 100;
+    height: 60px; /* ASSUMED HEIGHT */
+}
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.logo {
+    color: white;
+    font-size: 1.5rem;
+    text-decoration: none;
+    margin-right: 15px;
+}
+.nav-menu {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+.nav-item {
+    margin-left: 15px;
+}
+.nav-link {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    display: block;
+}
+.nav-link:hover {
+    color: white;
+}
+
+/* Search Form */
+.search-form {
+    display: flex;
+    margin-right: 20px;
+}
+.search-input {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    margin-right: 5px;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+.btn.primary {
+    background-color: #007bff;
+    color: white;
+}
+.btn.secondary {
+    background-color: #6c757d;
+    color: white;
+}
+.btn.success-outline {
+    color: #28a745;
+    border-color: #28a745;
+    background-color: transparent;
+}
+.btn.success-outline:hover {
+    color: white;
+    background-color: #28a745;
+}
+
+/* --- Hero Section Styling --- */
+.hero {
+    height: calc(100vh - 60px); 
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start; 
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+    background-size: cover;
+    background-position: center;
+    
+    filter: brightness(100%); 
+    z-index: 1;
+    
+    background-image: url('/books.jpg'); 
+}
+
+.hero-content {
+    /* 💥 FIX: Align content blocks together at the top of the hero area 💥 */
+    height: 100%; 
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    
+    /* ❌ Changed from space-between to flex-start ❌ */
+    justify-content: flex-start; 
+    
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-text h1 {
+    font-size: 3.5rem;
+    color: #4CAF50; 
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+    margin-bottom: 10px;
+    margin-top: 50px; 
+}
+.hero-text p {
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    margin: 5px 0;
+}
+
+.carousel-dots {
+    position: relative; 
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding-bottom: 20px; 
+    margin-top: auto; /* Keeps the dots visible at the very bottom if they are still in EJS */
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+.dot.active {
+    background-color: white;
+}
+
+/* --- Alerts and Forms (Simplified) --- */
+.alert {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+.alert.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border-color: #bee5eb;
+    /* FIX: Add margin-top to separate alert from the hero text */
+    margin-top: 20px;
+}
+
+/* Auth forms */
+.auth-form-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.btn.full-width {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Data Table */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.data-table th, .data-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.data-table th {
+    background-color: #f2f2f2;
+}
+
+
+/* --- Mobile Toggler and Responsiveness --- */
+.nav-toggle {
+    background: none;
+    border: 1px solid white;
+    padding: 5px 10px;
+    cursor: pointer;
+    display: none; /* Hidden by default on large screens */
+}
+.toggle-icon {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: white;
+    margin: 4px 0;
+}
+
+/* Media Query for Mobile View */
+@media (max-width: 992px) {
+    .nav-container {
+        flex-wrap: wrap;
+    }
+    .nav-toggle {
+        display: block; /* Show on small screens */
+    }
+    .nav-menu {
+        width: 100%;
+        display: none; /* Hidden by default on small screens */
+        flex-direction: column;
+        align-items: flex-start;
+        transition: max-height 0.3s ease-out;
+    }
+    /* This class is added/removed by navbar.js */
+    .nav-menu.show {
+        display: flex;
+    }
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .nav-item {
+        margin-left: 0;
+        width: 100%;
+        text-align: left;
+    }
+    .search-form {
+        width: 100%;
+        margin: 10px 0;
+    }
+}

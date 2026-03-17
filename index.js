@@ -536,13 +536,13 @@ app.get("/signup", (req, res) => {
   });
 
 });
+////
 app.post("/signup", async (req, res) => {
 
   const { username, email, password } = req.body;
   let connection;
 
   try {
-
     connection = await pool.getConnection();
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -564,7 +564,7 @@ app.post("/signup", async (req, res) => {
 
   } catch (err) {
 
-    console.error(err); 
+    console.error("SIGNUP ERROR:", err); // 🔥 must log
 
     if (err.code === "ER_DUP_ENTRY") {
       return res.render("signup", {
@@ -573,7 +573,7 @@ app.post("/signup", async (req, res) => {
       });
     }
 
-    res.render("signup", {
+    return res.render("signup", {
       pageTitle: "Sign Up",
       error: err.message || "Something went wrong"
     });
@@ -585,6 +585,8 @@ app.post("/signup", async (req, res) => {
   }
 
 });
+
+//////
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

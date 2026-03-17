@@ -22,6 +22,18 @@ const pool = mysql.createPool({
   connectionLimit: 10
 });
 
+const fs = require("fs");
+async function initDB() {
+  try {
+    const sql = fs.readFileSync("libdb.sql", "utf8");
+    await pool.query(sql);
+    console.log("✅ DB initialized");
+  } catch (err) {
+    console.log("⚠️ DB already exists or skipped");
+  }
+}
+initDB();
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));

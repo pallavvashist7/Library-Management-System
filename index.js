@@ -16,15 +16,14 @@ const multer = require("multer");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET;
-
-// ✅ ADDED
 const isProd = process.env.NODE_ENV === "production";
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT,
   waitForConnections: true,
   connectionLimit: 10
 });
@@ -36,10 +35,6 @@ app.use(express.json());
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
-/* =========================
-   AUTH MIDDLEWARE
-========================= */
 
 function authenticateToken(req, res, next) {
   const token = req.cookies.token;
@@ -74,17 +69,9 @@ app.use((req, res, next) => {
   next();
 });
 
-/* =========================
-   ROUTES
-========================= */
-
 app.get("/", (req, res) => {
   res.render("index", { pageTitle: "Home" });
 });
-
-/* =========================
-   SIGN IN
-========================= */
 
 app.get("/signin", (req, res) => {
   res.render("signin", {
@@ -128,8 +115,6 @@ app.post("/signin", async (req, res) => {
       JWT_SECRET,
       { expiresIn: "2h" }
     );
-
-    // ✅ FIXED COOKIE
     res.cookie("token", token, {
       httpOnly: true,
       secure: isProd,
@@ -150,10 +135,6 @@ app.post("/signin", async (req, res) => {
     if (connection) connection.release();
   }
 });
-
-/* =========================
-   SIGN UP
-========================= */
 
 app.get("/signup", (req, res) => {
   res.render("signup", {
@@ -181,8 +162,6 @@ app.post("/signup", async (req, res) => {
       JWT_SECRET,
       { expiresIn: "2h" }
     );
-
-    // ✅ FIXED COOKIE
     res.cookie("token", token, {
       httpOnly: true,
       secure: isProd,
@@ -211,13 +190,8 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-/* =========================
-   LOGOUT
-========================= */
-
 app.get("/logout", (req, res) => {
 
-  // ✅ FIXED COOKIE CLEAR
   res.clearCookie("token", {
     httpOnly: true,
     secure: isProd,
@@ -226,10 +200,6 @@ app.get("/logout", (req, res) => {
 
   res.redirect("/");
 });
-
-/* =========================
-   BOOKS (PROTECTED)
-========================= */
 
 app.get("/books", authenticateToken, async (req, res) => {
 

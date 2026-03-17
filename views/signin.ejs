@@ -7,9 +7,11 @@
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+
 <nav class="main-nav dark-bg">
 <div class="nav-container">
 <a class="logo" href="/">LIBRARY</a>
+
 <button class="nav-toggle" type="button" 
 id="navbarToggle" aria-controls="navbarNav" 
 aria-expanded="false" aria-label="Toggle navigation">
@@ -17,6 +19,7 @@ aria-expanded="false" aria-label="Toggle navigation">
 </button>
 
 <div class="nav-menu" id="navbarNav">
+
 <ul class="nav-links main-links">
 <li class="nav-item">
 <a class="nav-link" href="/">Home</a>
@@ -25,10 +28,12 @@ aria-expanded="false" aria-label="Toggle navigation">
 <a class="nav-link" href="/books">Books</a>
 </li>
 </ul>
+
 <form class="search-form">
 <input class="search-input" type="search" placeholder="Search a Book" aria-label="Search">
 <button class="btn success-outline" type="submit">Search</button>
 </form>
+
 <ul class="nav-links auth-links">
 <li class="nav-item">
 <a class="nav-link" href="/signup">Sign Up</a>
@@ -37,42 +42,58 @@ aria-expanded="false" aria-label="Toggle navigation">
 <a class="nav-link" href="/signin">Sign In</a>
 </li>
 </ul>
-   </div>
-   </div>
+
+</div>
+</div>
 </nav>
-    <div class="content-container auth-form-container">
-        <h2>Sign In to Your Account</h2>
 
-        <% if (message) { %>
-            <div class="alert success">
-                <%= message %>
-            </div>
-        <% } %>
-        
-        <% if (error) { %>
-            <div class="alert error">
-                <%= error %>
-            </div>
-        <% } %>
+<div class="content-container auth-form-container">
 
- <form action="/signin" method="POST" class="auth-form">
-    <div class="form-group">
-       <label for="username">Username:</label>
-     <input type="text" id="username" name="username" required>
-           </div>
-            <div class="form-group">
-   <label for="password">Password:</label>
-   <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="btn primary full-width">Sign In</button>
-        </form>
+<h2>Sign In to Your Account</h2>
 
-        <p class="auth-link">Don't have an account? <a href="/signup">Sign Up here</a></p>
+<!-- ✅ FIXED HERE -->
+<% if (typeof message !== "undefined" && message) { %>
+    <div class="alert success">
+        <%= message %>
     </div>
+<% } %>
 
-    <footer class="light-bg text-center padding-y">
-        <p>&copy; 2023 Library Management System</p>
-    </footer>
-    <script src="/js/navbar.js"></script>
+<% if (error) { %>
+    <div class="alert error">
+        <%= error %>
+    </div>
+<% } %>
+
+<form action="/signin" method="POST" class="auth-form">
+
+<div class="form-group">
+<label for="username">Username:</label>
+<input type="text" id="username" name="username" required>
+</div>
+
+<div class="form-group">
+<label for="password">Password:</label>
+<input type="password" id="password" name="password" required>
+</div>
+
+<button type="submit" class="btn primary full-width">
+Sign In
+</button>
+
+</form>
+
+<p class="auth-link">
+Don't have an account?
+<a href="/signup">Sign Up here</a>
+</p>
+
+</div>
+
+<footer class="light-bg text-center padding-y">
+<p>&copy; 2023 Library Management System</p>
+</footer>
+
+<script src="/js/navbar.js"></script>
+
 </body>
 </html>

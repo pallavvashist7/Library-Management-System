@@ -86,7 +86,8 @@ Logout
 
 <h2>Create a New Account</h2>
 
-<% if (error) { %>
+<!-- ✅ FIXED HERE -->
+<% if (typeof error !== "undefined" && error) { %>
 <div class="alert error">
 <%= error %>
 </div>

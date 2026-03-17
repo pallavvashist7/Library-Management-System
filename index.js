@@ -32,7 +32,7 @@ async function initDB() {
     console.log("⚠️ DB already exists or skipped");
   }
 }
-initDB();
+//initDB();
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));

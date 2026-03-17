@@ -536,7 +536,6 @@ app.get("/signup", (req, res) => {
   });
 
 });
-
 app.post("/signup", async (req, res) => {
 
   const { username, email, password } = req.body;
@@ -563,11 +562,20 @@ app.post("/signup", async (req, res) => {
 
     res.redirect("/books");
 
-  } catch {
+  } catch (err) {
+
+    console.error(err); 
+
+    if (err.code === "ER_DUP_ENTRY") {
+      return res.render("signup", {
+        pageTitle: "Sign Up",
+        error: "Username or Email already exists"
+      });
+    }
 
     res.render("signup", {
       pageTitle: "Sign Up",
-      error: "User already exists"
+      error: err.message || "Something went wrong"
     });
 
   } finally {

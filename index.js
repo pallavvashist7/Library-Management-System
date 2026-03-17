@@ -16,8 +16,7 @@ const multer = require("multer");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET;
-const isProd = process.env.NODE_ENV === "production";
-
+const isProd = true;
 const pool = mysql.createPool({
   host: process.env.MYSQLHOST,
   user: process.env.MYSQLUSER,

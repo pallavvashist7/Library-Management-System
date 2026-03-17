@@ -18,11 +18,11 @@ const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET;
 const isProd = true;
 const pool = mysql.createPool({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE, 
-  port: Number(process.env.MYSQLPORT) || 3306, 
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: Number(process.env.DB_PORT) || 3306,
   waitForConnections: true,
   connectionLimit: 10
 });
@@ -74,7 +74,8 @@ app.get("/", (req, res) => {
 app.get("/signin", (req, res) => {
   res.render("signin", {
     pageTitle: "Sign In",
-    error: req.query.error || null
+    error: req.query.error || null,
+        message: null
   });
 });
 
@@ -126,7 +127,8 @@ app.post("/signin", async (req, res) => {
 
     res.render("signin", {
       pageTitle: "Sign In",
-      error: "Login error"
+      error: "Login error",
+      message: null
     });
 
   } finally {
@@ -137,7 +139,8 @@ app.post("/signin", async (req, res) => {
 app.get("/signup", (req, res) => {
   res.render("signup", {
     pageTitle: "Sign Up",
-    error: null
+    error: null,
+    message: null
   });
 });
 
@@ -174,13 +177,15 @@ app.post("/signup", async (req, res) => {
     if (err.code === "ER_DUP_ENTRY") {
       return res.render("signup", {
         pageTitle: "Sign Up",
-        error: "Username or Email already exists"
+        error: "Username or Email already exists",
+        message: null
       });
     }
 
     res.render("signup", {
       pageTitle: "Sign Up",
-      error: err.message || "Something went wrong"
+      error: err.message || "Something went wrong",
+      message: null
     });
 
   } finally {
